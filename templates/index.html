@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SpamGuard AI</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    #283b78 0%,
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at 80% 80%,
+                    #5b2c83 0%,
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #090d1c,
+                    #11182e
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+        }
+
+
+        /* MAIN CARD */
+
+        .container {
+
+            width: 680px;
+
+            max-width: 92%;
+
+            padding: 42px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.15);
+
+            border-radius: 24px;
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.45);
+
+            animation:
+                appear 0.6s ease;
+        }
+
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* LOGO */
+
+        .logo {
+
+            width: 64px;
+
+            height: 64px;
+
+            margin:
+                0 auto 18px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 10px 30px
+                rgba(118, 75, 162, 0.45);
+        }
+
+
+        /* HEADING */
+
+        h1 {
+
+            text-align: center;
+
+            margin: 0;
+
+            font-size: 36px;
+
+            letter-spacing: -1px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            margin:
+                12px 0 35px;
+
+            color: #aeb7d0;
+
+            font-size: 16px;
+        }
+
+
+        /* LABEL */
+
+        .label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #dce2f5;
+        }
+
+
+        /* TEXT AREA */
+
+        textarea {
+
+            width: 100%;
+
+            height: 180px;
+
+            padding: 18px;
+
+            resize: none;
+
+            border-radius: 15px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            color: white;
+
+            font-size: 16px;
+
+            font-family:
+                Arial, sans-serif;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+
+        textarea::placeholder {
+
+            color: #7f89a5;
+        }
+
+
+        textarea:focus {
+
+            border-color: #7888ff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(120, 136, 255, 0.15);
+        }
+
+
+        /* BUTTON */
+
+        button {
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                all 0.25s;
+
+            box-shadow:
+                0 10px 25px
+                rgba(102, 126, 234, 0.25);
+        }
+
+
+        button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(102, 126, 234, 0.4);
+        }
+
+
+        button:active {
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* RESULT */
+
+        .result {
+
+            margin-top: 28px;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            animation:
+                resultAppear 0.4s ease;
+        }
+
+
+        @keyframes resultAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    scale(0.97);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    scale(1);
+            }
+        }
+
+
+        .result h2 {
+
+            margin:
+                0 0 10px;
+
+            font-size: 27px;
+        }
+
+
+        .confidence {
+
+            margin: 0;
+
+            color: #b9c1d8;
+
+            font-size: 15px;
+        }
+
+
+        /* CONFIDENCE BAR */
+
+        .bar-container {
+
+            margin-top: 18px;
+
+            width: 100%;
+
+            height: 9px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.1);
+
+            overflow: hidden;
+        }
+
+
+        .bar {
+
+            height: 100%;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #667eea,
+                    #a855f7
+                );
+
+            transition:
+                width 1s ease;
+        }
+
+
+        /* FOOTER */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 28px;
+
+            font-size: 12px;
+
+            color: #737d99;
+        }
+
+
+        .footer span {
+
+            color: #9ba7c5;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                padding: 28px;
+            }
+
+
+            h1 {
+
+                font-size: 29px;
+            }
+
+
+            textarea {
+
+                height: 150px;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- Dynamic confidence width -->
+
+    {% if confidence %}
+
+    <style>
+
+        .bar {
+
+            width: {{ confidence }}%;
+
+        }
+
+    </style>
+
+    {% endif %}
+
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="logo">
+        AI
+    </div>
+
+
+    <h1>
+        SpamGuard AI
+    </h1>
+
+
+    <p class="subtitle">
+
+        Intelligent SMS spam detection
+        powered by an LSTM neural network
+
+    </p>
+
+
+    <form method="POST">
+
+
+        <label class="label">
+
+            Enter your message
+
+        </label>
+
+
+        <textarea
+            name="message"
+            placeholder="Paste or type an SMS message here..."
+            required></textarea>
+
+
+        <button type="submit">
+
+            Analyze Message
+
+        </button>
+
+
+    </form>
+
+
+    {% if result %}
+
+
+    <div class="result">
+
+
+        <h2>
+
+            {{ result }}
+
+        </h2>
+
+
+        <p class="confidence">
+
+            Model Confidence:
+
+            <strong>
+                {{ "%.2f"|format(confidence) }}%
+            </strong>
+
+        </p>
+
+
+        <div class="bar-container">
+
+            <div class="bar"></div>
+
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+    <div class="footer">
+
+        Powered by
+        <span>TensorFlow + LSTM</span>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
